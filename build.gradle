@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.6'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'jacoco'
+	id 'org.sonarqube' version '3.5.0.2730'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'junit:junit:4.13.1'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+	outputs.dir snippetsDir
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn build
+	afterEvaluate {
+		getClassDirectories().setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, exclude: [
+							'**/entity/*',
+							'**/model/*',
+							'**/exception/*',
+							'**/constant/*',
+							'**/RecyclerApplication.java'
+					])
+				}))
+	}
+
+	reports {
+		xml.enabled true
+	}
+}
+
+sonarqube {
+
+	properties {
+		property "sonar.projectKey", "mtech-batch-31_waste-recycler"
+		property "sonar.organization", "mtech-batch-31"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.sourceEncoding", "UTF-8"
+		property "sonar.sources", "src/main"
+	}
+}
