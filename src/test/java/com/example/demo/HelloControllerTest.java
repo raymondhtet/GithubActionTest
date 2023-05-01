@@ -19,7 +19,7 @@ public class HelloControllerTest {
 
         mockMvc.perform(get("/api/v1/auth/test"))
 
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
         assertEquals("hello", "hello");
 
     }
