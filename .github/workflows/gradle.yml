@@ -33,3 +33,20 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+        
+    - name: Check unit tests ✅
+      if: ${{ steps.build_and_test.outcome == 'success' }}
+      # set the merge commit status check
+      # using GitHub REST API
+      # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
+      run: |
+        curl --request POST \
+        --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        --header 'content-type: application/json' \
+        --data '{
+          "context": "e2e",
+          "state": "success",
+          "description": "All tests passed",
+          "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        }'
