@@ -35,7 +35,7 @@ jobs:
         arguments: build
         
     - name: Check unit tests ✅
-      if: ${{ steps.build_and_test.outcome == 'success' }}
+      if: ${{ success() }}
       # set the merge commit status check
       # using GitHub REST API
       # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
