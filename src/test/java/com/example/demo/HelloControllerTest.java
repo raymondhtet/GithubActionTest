@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.junit.Assert.*;
 @WebMvcTest(HelloController.class)
 public class HelloControllerTest {
     @Autowired
@@ -19,5 +19,7 @@ public class HelloControllerTest {
 
         mockMvc.perform(get("/api/v1/auth/test"))
                 .andExpect(status().isOk());
+
+        assertEquals("hello", "hello");
     }
 }
