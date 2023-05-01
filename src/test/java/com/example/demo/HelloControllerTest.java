@@ -18,6 +18,6 @@ public class HelloControllerTest {
     public void givenLoginRequest_AbleToReachApi() throws Exception {
 
         mockMvc.perform(get("/api/v1/auth/test"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 }
