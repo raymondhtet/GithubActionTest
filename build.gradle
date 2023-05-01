@@ -36,26 +36,18 @@ tasks.named('test') {
 	finalizedBy jacocoTestReport
 }
 
+
 jacocoTestReport {
-	dependsOn build
-	afterEvaluate {
-		getClassDirectories().setFrom(
-				files(classDirectories.files.collect {
-					fileTree(dir: it, exclude: [
-							'**/entity/*',
-							'**/model/*',
-							'**/exception/*',
-							'**/constant/*',
-							'**/RecyclerApplication.java'
-					])
-				}))
-	}
+	dependsOn test
 
 	reports {
 		xml.enabled true
 	}
 }
 
+
+
+/*
 sonarqube {
 
 	properties {
@@ -66,3 +58,4 @@ sonarqube {
 		property "sonar.sources", "src/main"
 	}
 }
+*/
