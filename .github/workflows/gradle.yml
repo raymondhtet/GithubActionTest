@@ -77,7 +77,7 @@ jobs:
         run: |
           STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/qualitygates/project_status?projectKey=raymondhtet_GithubActionTest" | jq -r .projectStatus.status)
           echo "Quality gate status is $STATUS"
-          if [[ "$STATUS" != "passed" ]]; then
+          if [[ "$STATUS" != "OK" ]]; then
           echo "Quality gate failed"
             exit 1
           fi      
