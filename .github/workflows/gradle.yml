@@ -13,8 +13,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: read
+permissions: read-all|write-all
 
 jobs:
   build_and_test:
@@ -78,6 +77,10 @@ jobs:
         run: |
           STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/qualitygates/project_status?projectKey=raymondhtet_GithubActionTest" | jq -r .projectStatus.status)
           echo "Quality gate status is $STATUS"
+          if [[ "$STATUS" != "passed" ]]; then
+          echo "Quality gate failed"
+            exit 1
+          fi      
 
       - name: Upload Unit Test Artifacts
         uses: actions/upload-artifact@v3
@@ -114,11 +117,17 @@ jobs:
         uses: zaproxy/action-full-scan@v0.4.0
         with:
           target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com/'
-     
+
       - name: Upload OWASP ZAP report artifacts
         uses: actions/upload-artifact@v2
         with:
           name: zap-report
           path: baseline.html
+
+      - name: Upload OWASP ZAP report artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-report-2
+          path: report_html.html
 
 
