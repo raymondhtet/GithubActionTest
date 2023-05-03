@@ -71,7 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonarqube --info
+        run: ./gradlew build sonar --info
 
       - name: Get SonarCloud quality gate status
         run: |
@@ -94,7 +94,7 @@ jobs:
         with:
           name: code-coverage-artifact
           path: |
-            build/jacocoHtml/
+            build/reports/jacoco/test/html/
 
       - name: Upload SonarCloud Artifacts
         uses: actions/upload-artifact@v3
@@ -117,17 +117,3 @@ jobs:
         uses: zaproxy/action-full-scan@v0.4.0
         with:
           target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com/'
-
-      - name: Upload OWASP ZAP report artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: zap-report
-          path: baseline.html
-
-      - name: Upload OWASP ZAP report artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: zap-report-2
-          path: report_html.html
-
-
