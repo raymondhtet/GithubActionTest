@@ -45,17 +45,20 @@ jacocoTestReport {
 	}
 }
 
+task installLocalGitHook(type: Copy){
+	from new File(rootProject.rootDir, 'scripts/pre-commit')
+	into { new File(rootProject.rootDir, '.git/hooks')}
+	fileMode 0775
+}
 
+build {
+	dependsOn installLocalGitHook
+}
 
-/*
 sonarqube {
-
 	properties {
-		property "sonar.projectKey", "mtech-batch-31_waste-recycler"
-		property "sonar.organization", "mtech-batch-31"
+		property "sonar.projectKey", "raymondhtet_GithubActionTest"
+		property "sonar.organization", "raymond-htet"
 		property "sonar.host.url", "https://sonarcloud.io"
-		property "sonar.sourceEncoding", "UTF-8"
-		property "sonar.sources", "src/main"
 	}
 }
-*/

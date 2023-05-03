@@ -17,9 +17,8 @@ public class HelloControllerTest {
     @Test
     public void givenLoginRequest_AbleToReachApi() throws Exception {
 
-        mockMvc.perform(get("/api/v1/auth/test"))
-                .andExpect(status().isNotFound());
-
+        mockMvc.perform(get("/api/v1/auth/test")).andExpect(status().isNotFound());
         assertEquals("hello", "hello");
+        assertEquals("Hello", "Hello");
     }
 }
