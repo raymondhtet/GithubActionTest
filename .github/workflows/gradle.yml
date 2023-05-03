@@ -74,6 +74,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info
 
+      - name: Get SonarCloud quality gate status
+        run: |
+          STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/qualitygates/project_status?projectKey=raymondhtet_GithubActionTest" | jq -r .projectStatus.status)
+          echo "Quality gate status is $STATUS"
+
       - name: Upload Unit Test Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -107,7 +112,7 @@ jobs:
           target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
-      
+
       - name: Upload OWASP ZAP report artifacts
         uses: actions/upload-artifact@v2
         with:
