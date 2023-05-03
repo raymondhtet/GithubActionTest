@@ -40,9 +40,9 @@ jobs:
         with:
           arguments: build
 
-
   sonar:
-    name: Build and analyze
+    needs: build_and_test
+    name: Analyze with SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -74,14 +74,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonar --info
 
-      - name: Upload Artifact
+      - name: Upload Unit Test Artifacts
         uses: actions/upload-artifact@v3
         with:
           path: |
             build/reports/tests/
             build/jacocoHtml/            
 
-      - name: Upload SonarCloud Artifact
+      - name: Upload SonarCloud Artifacts
         uses: actions/upload-artifact@v3
         with:
           path: |            
