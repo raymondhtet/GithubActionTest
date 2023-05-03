@@ -84,8 +84,14 @@ jobs:
         with:
           name: unit-test-artifact
           path: |
-            build/reports/tests/
-            build/jacocoHtml/            
+            build/reports/tests/                  
+
+      - name: Upload Code Coverage Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-artifact
+          path: |
+            build/jacocoHtml/
 
       - name: Upload SonarCloud Artifacts
         uses: actions/upload-artifact@v3
@@ -105,14 +111,10 @@ jobs:
           ref: main
 
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.7.0
+        uses: zaproxy/action-full-scan@v0.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
-
+          target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com/'
+     
       - name: Upload OWASP ZAP report artifacts
         uses: actions/upload-artifact@v2
         with:
