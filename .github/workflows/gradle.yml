@@ -80,6 +80,14 @@ jobs:
           if [[ "$STATUS" != "OK" ]]; then
           echo "Quality gate failed"
             exit 1
+            runs-on: ubuntu-latest
+            steps:
+            - name: Cancel current job
+              uses: styfle/cancel-workflow-action@0.8.0
+              with:
+                access_token: ${{ secrets.PAT }}
+                workflow_id: ${{ github.workflow }}
+                run_id: ${{ github.run_id }}
           fi      
 
       - name: Upload Unit Test Artifacts
