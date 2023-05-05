@@ -60,5 +60,6 @@ sonarqube {
 		property "sonar.projectKey", "raymondhtet_GithubActionTest"
 		property "sonar.organization", "raymond-htet"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.analysis.mode", "preview"
 	}
 }
