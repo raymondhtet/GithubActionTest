@@ -80,19 +80,12 @@ jobs:
 
       - name: Get SonarCloud quality gate status
         run: |
-          STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/qualitygates/project_status?projectKey=raymondhtet_GithubActionTest" | jq -r .projectStatus.status)
-          echo "Quality gate status is $STATUS"
+          #STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/qualitygates/project_status?projectKey=raymondhtet_GithubActionTest" | jq -r .projectStatus.status) # to get current project status
+          STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}": "https://sonarcloud.io/api/project_pull_requests/list?project=raymondhtet_GithubActionTest" | jq -r .pullRequests[0].status.qualityGateStatus) # to get current PR status
+          echo "Current PR Quality gate status is $STATUS"
           if [[ "$STATUS" != "OK" ]]; then
           echo "Quality gate failed"
-            exit 1
-            runs-on: ubuntu-latest
-            steps:
-            - name: Cancel current job
-              uses: styfle/cancel-workflow-action@0.8.0
-              with:
-                access_token: ${{ secrets.PAT }}
-                workflow_id: ${{ github.workflow }}
-                run_id: ${{ github.run_id }}
+            exit 1            
           fi      
 
       - name: Upload Unit Test Artifacts
