@@ -18,8 +18,10 @@ public class HelloControllerTest {
     public void givenLoginRequest_AbleToReachApi() throws Exception {
         String expectedWord = "Hello";
         String expectedAnotherWorld = "hello";
+        String someMoreExpectedAnotherWorld = "world";
         mockMvc.perform(get("/api/v1/auth/test")).andExpect(status().isNotFound());
         assertEquals(expectedWord, "Hello");
-        assertEquals(expectedAnotherWorld, "hello");        
+        assertEquals(expectedAnotherWorld, "hello");  
+        assertEquals(someMoreExpectedAnotherWorld, "world");
     }
 }
