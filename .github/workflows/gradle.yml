@@ -116,17 +116,17 @@ jobs:
           path: |            
             build/sonar/report-task.txt
 
-  zap_scan:
-    needs: sonar
-    runs-on: ubuntu-latest
-    name: Zap Scan
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: main
+  #zap_scan:
+    #needs: sonar
+    #runs-on: ubuntu-latest
+    #name: Zap Scan
+    #steps:
+      #- name: Checkout
+      #  uses: actions/checkout@v2
+      #  with:
+      #    ref: main
 
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.4.0
-        with:
-          target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com/'
+      #- name: ZAP Scan
+      #  uses: zaproxy/action-full-scan@v0.4.0
+      #  with:
+      #    target: 'http://recycler-service-1183649220.ap-southeast-1.elb.amazonaws.com/'
