@@ -20,6 +20,6 @@ public class HelloControllerTest {
         String expectedAnotherWorld = "hello";
         mockMvc.perform(get("/api/v1/auth/test")).andExpect(status().isNotFound());
         assertEquals(expectedWord, "Hello");
-        assertEquals("hello", "hello");        
+        assertEquals(expectedAnotherWorld, "hello");        
     }
 }
